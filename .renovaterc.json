@@ -1,0 +1,19 @@
+{
+  "extends": [
+    "config:base",
+    "schedule:daily",
+    ":semanticCommits"
+  ],
+  "timezone": "Japan",
+  "packageRules": [
+    {
+      "packagePatterns": [
+        "^.+"
+      ],
+      "groupName": "external",
+      "patch": {
+        "automerge": true
+      }
+    }
+  ]
+}

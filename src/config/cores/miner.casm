@@ -1,0 +1,3 @@
+// simply move the items from miner to the output
+load $i0 miner
+stor $i0 output

@@ -1,0 +1,39 @@
+/*
+  dual assembler with source and output storages
+
+         / \ / \
+src0 -->|IS | P |
+         \ / \ / \
+src1 -->  |IS | SO| --> OUTPUT
+           \ / \ /
+
+- quad tile
+- 2 input
+- 1 output
+- 3 storage
+- 1 puma
+
+*/
+
+// move produced items out
+load $i0 storage2
+stor $i0 output
+
+// set recipe
+copy "component" puma.recipe
+
+// empty the puma if possible
+load $i1 puma
+stor $i1 storage2
+
+// add items to puma
+load $i2 storage0
+stor $i2 puma
+load $i3 storage1
+stor $i3 puma
+
+// fill up input storages
+load $i4 input0
+stor $i4 storage0
+load $i5 input1
+stor $i5 storage1

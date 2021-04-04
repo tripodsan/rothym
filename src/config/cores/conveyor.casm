@@ -1,0 +1,24 @@
+/*
+
+Conveyor that moves items from left to right, using an
+additional storage for overflow
+
+*/
+  // load item from input
+  load $i0 input
+
+  // check if output is free
+  test output.size
+1:jump .occupied
+
+  // if $i0 is already loaded from input before, this will simply fail
+  load $i0 storage
+
+  // if free move item from storage there
+  stor $i0 output
+
+.occupied
+  // else put (potential) item to storage
+  stor $i0 storage
+
+

@@ -1,0 +1,25 @@
+/*
+Smelter that uses fuel to smelt source items.
+
+           / \   / \
+fuel -->  I   \ /   \
+         |     |     |
+         |  S  |  B  O  --> smelted
+         |     |     |
+res  -->  I   / \    |
+           \ /   \ /
+
+*/
+
+// move smelted items to output
+load $i0 smelter
+stor $i0 output
+
+// add fuel to the burner
+load $i1 input04
+stor $i1 burner
+
+// add resource to the smelter
+load $i2 input02
+stor $i2 smelter
+

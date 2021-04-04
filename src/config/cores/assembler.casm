@@ -1,0 +1,25 @@
+/*
+Assembler with 2 inputs
+
+           / \
+src0 -->  I   \
+         |     |
+         |  S  O  --> product
+         |     |
+src1 -->  I   /
+           \ /
+
+*/
+
+// move produced items to output
+load $i0 puma
+stor $i0 output
+
+// add fuel to the puma
+load $i1 input2
+stor $i1 puma
+
+// add resource to the puma
+load $i2 input4
+stor $i2 puma
+

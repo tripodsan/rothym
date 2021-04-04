@@ -1,0 +1,3 @@
+// simply move the items from input to output
+load $i0 input
+stor $i0 output

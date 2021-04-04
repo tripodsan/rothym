@@ -1,0 +1,20 @@
+/*
+Smelter that uses electricity to smelt source items.
+
+           / \   / \
+          /   \ /   \
+         |     |     |
+res -->  I  S  |  B  O  --> smelted
+         |     |     |
+          \   / \   /
+           \ /   \ /
+
+*/
+
+// move smelted items to output
+load $i0 smelter
+stor $i0 output
+
+// add resource to the smelter
+load $i2 input
+stor $i2 smelter

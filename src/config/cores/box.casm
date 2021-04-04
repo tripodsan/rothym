@@ -1,0 +1,35 @@
+/*
+Box that can be accessed from all sides.
+
+   / \
+  O   I
+ |     |
+ I  S  O
+ |     |
+  O   I
+   \ /
+
+Allows for multiple inputs and outputs and uses
+ItemSink.demand to check if there is demand for an item.
+*/
+
+// move items to the output(s)
+  test output0.demand
+1:load $i0 storage
+  stor $i0 output0
+
+//  test output2.demand
+//1:load $i0 storage
+//1:stor $i0 output2
+//
+//  test output4.demand
+//1:load $i0 storage
+//1:stor $i0 output4
+//
+//// transfer the input(s)
+//  load $i1 input1
+//  stor $i1 storage
+//  load $i2 input3
+//  stor $i2 storage
+//  load $i3 input5
+//  stor $i3 storage
