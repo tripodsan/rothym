@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --config webpack.config.cjs",
     "start": "webpack serve --mode=development --config webpack.config.cjs",
-    "lint": "./node_modules/.bin/eslint --ext .js,.vue ."
+    "lint": "./node_modules/.bin/eslint --ext .js,.vue .",
+    "deploy": "git subtree push --prefix dist origin gh-pages"
   },
   "repository": {
     "type": "git",
