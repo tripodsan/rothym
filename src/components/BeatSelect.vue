@@ -64,7 +64,7 @@ export default {
   line-height: 80px;
 }
 .divs {
-  font-family: MusiSync;
+  font-family: NoteFont;
   font-size: 72px;
   text-align: center;
   align-self: baseline;
@@ -89,7 +89,7 @@ export default {
 }
 
 @font-face {
-  font-family: 'MusiSync';
+  font-family: 'NoteFont';
   src: url('../assets/MusiSync.woff') format('woff');
   font-weight: normal;
   font-style: normal;

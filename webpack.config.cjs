@@ -18,7 +18,7 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: 'http://localhost:8080/',
+    publicPath: '/',
   },
   resolve: {
     alias: {
