@@ -1,5 +1,4 @@
 /* eslint-env browser */
-/* globals Stats, anime */
 
 import Vue from 'vue';
 
@@ -10,10 +9,8 @@ import GameMain from '../components/GameMain.vue';
 
 import World from './World.js';
 
-import SVGRenderer from '../gfx/SVGRenderer.js';
-import UserInterface from '../gfx/UserInterface.js';
-
 import '../gfx/custom.scss';
+import AudioManager from '../gfx/AudioManager.js';
 
 // Install BootstrapVue
 Vue.config.devtools = true;
@@ -27,18 +24,21 @@ export default class Game {
   constructor() {
     const world = new World();
 
-    // some FPS stats
-    const stats = new Stats();
-    document.body.appendChild(stats.dom);
-    stats.showPanel(0);
-
     Object.assign(this, {
       world,
-      stats,
     });
 
     this.boundUpdate = this.update.bind(this);
     this.initKeyHandler();
+
+    this.audio = new AudioManager();
+    this.audio.addSample('kick', '/sounds/Kick 001 Basic.wav');
+    this.audio.addSample('snare', '/sounds/Snare 004.wav');
+    this.audio.addSample('hihat', '/sounds/HiHat Closed 004 Flat Real.wav');
+    this.audio.addSample('hihat_open', '/sounds/HiHat Open 001.wav');
+    this.audio.addSample('metronome', '/sounds/Percussion Clave 002 808.wav');
+    this.audio.addSample('tom-high', '/sounds/Percussion Conga 001 High.wav');
+    this.audio.addSample('tom-low', '/sounds/Percussion Conga 002 Low.wav');
   }
 
   save() {
@@ -60,12 +60,6 @@ export default class Game {
         case ' ':
           this.world.step();
           break;
-        case 'm':
-          this.userInterface.toggleMainMenu();
-          break;
-        case 'Escape':
-          this.world.player.unselect();
-          break;
         case 'Delete':
         case 'd':
           this.world.deleteSelected();
@@ -76,38 +70,8 @@ export default class Game {
     });
   }
 
-  updateGUI() {
-    const { info } = this.vue.$data;
-    const { cell } = info;
-    cell.selected = this.world.selected;
-
-    // render mouse info
-    const { mouse } = info;
-    mouse.position = this.world.mousePos;
-    // const mc = this.world.getCellAt(this.world.mousePos);
-    // if (mc) {
-    //   mouse.cell = `${mc.getTitle()} - ${mc.type} - ${mc.rotation * 60}°`;
-    // } else {
-    //   mouse.cell = '-';
-    // }
-    // const rc = this.world.getResourceAt(this.world.mousePos);
-    // mouse.resource = `${rc ? rc.getTitle() : '-'}`;
-    // mouse.terrain = this.world.terrain.get(this.world.mousePos);
-
-    // render world info
-    const { world } = info;
-    world.tick = this.world.tickCount;
-    world.state = this.world.paused ? '(paused)' : '(running)';
-  }
-
   update() {
-    this.stats.begin();
     this.world.tick();
-    this.renderer.render();
-    this.updateGUI();
-    this.userInterface.update();
-    this.stats.end();
-
     requestAnimationFrame(this.boundUpdate);
   }
 
@@ -119,6 +83,8 @@ export default class Game {
       template: '<GameMain v-bind:info="info" />',
       components: { GameMain },
       data: {
+        world: self.world,
+        audio: this.audio,
         info: {
           mouse: {
             position: 0,
@@ -136,26 +102,17 @@ export default class Game {
         },
       },
       mounted() {
-        self.svg = document.getElementById('svg-main');
-        self.renderer = new SVGRenderer(self.world, self.svg);
-        self.userInterface = new UserInterface(self);
-        self.renderer.setScale();
-        self.userInterface.setScale();
+        self.board = document.getElementById('main-board');
         self.world.init();
 
-        anime({
-          targets: [self.svg],
-          opacity: [0, 1],
-          delay: 100,
-          duration: 2000,
-        });
+        // anime({
+        //   targets: [self.svg, self.board],
+        //   opacity: [0, 1],
+        //   delay: 100,
+        //   duration: 2000,
+        // });
         requestAnimationFrame(self.boundUpdate);
       },
-    });
-
-    window.addEventListener('resize', () => {
-      this.renderer.setScale();
-      this.userInterface.setScale();
     });
   }
 }

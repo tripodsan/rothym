@@ -11,18 +11,28 @@ export default class Cell {
       pos: [0, 0],
       world: null, // set during boot
       selected: false,
-      size: 100,
-      beat: 4,
-      nextTime: 0,
+      prevNote: -1,
       notes: [1, 0, 1, 0, 1, 0, 1, 0],
       instruments: ['', 'snare'],
       text: '',
+      muted: false,
+      autoMute: false,
     }, opts);
+  }
+
+  getNotes() {
+    return this.notes.slice(0, this.world.numNotes);
+  }
+
+  onMetricsChanged() {
+    while (this.notes.length < this.world.numNotes) {
+      this.notes.push(0);
+    }
   }
 
   msPerMeasure() {
     const mspb = 1000 / (this.world.speed / 60); // milliseconds per beat
-    return mspb * this.beat;
+    return mspb * this.world.beat;
   }
 
   measureTime() {
@@ -32,32 +42,38 @@ export default class Cell {
   }
 
   tick() {
-    // check if we need to play a note
-    if (this.world.time >= this.nextTime) {
-      const idx = Math.floor((this.world.time / this.msPerMeasure()) * this.notes.length);
-      this.playNote(idx % this.notes.length);
-      this.nextTime = ((idx + 1) / this.notes.length) * this.msPerMeasure();
+    const mtime = (this.world.time / this.msPerMeasure()) * this.world.numNotes;
+    const idx = Math.floor(mtime);
+    if (Math.abs(mtime - idx) > 0.2) {
+      return;
+    }
+    if (idx !== this.prevNote) {
+      this.prevNote = idx;
+      this.playNote(idx % this.world.numNotes);
+    }
+    if (!this.muted && this.autoMute && idx >= this.world.numNotes) {
+      this.muted = true;
     }
   }
 
   playNote(idx) {
-    console.log(idx);
-    if (this.notes[idx]) {
+    if (this.notes[idx] && !this.muted) {
       this.playedNote = idx;
     } else {
       this.playedNote = -1;
     }
   }
 
-  toggleNote(idx) {
-    this.notes[idx] = (this.notes[idx] + 1) % this.instruments.length;
+  setNote(idx, value) {
+    this.notes.splice(idx, 1, value);
   }
 
-  getNotePos(a) {
-    return [
-      Math.cos(a - Math.PI / 2) * this.size,
-      Math.sin(a - Math.PI / 2) * this.size,
-    ];
+  toggleNote(idx) {
+    this.setNote(idx, (this.notes[idx] + 1) % this.instruments.length);
+  }
+
+  toggleMute() {
+    this.muted = !this.muted;
   }
 
   toJSON() {
@@ -87,18 +103,12 @@ export default class Cell {
     this.world = world;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   afterLoad() {
   }
 
   destroy() {
     this.destroyed = true;
-  }
-
-  canDrop(pos = this.pos, rotation = this.rotation) {
-    return true;
-  }
-
-  onDrop(pos = this.pos, rotation = this.rotation) {
   }
 
   select(selected) {

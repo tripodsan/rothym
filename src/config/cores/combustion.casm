@@ -1,7 +1,0 @@
-/*
- simple combustion engine with no power load regulation
-*/
-
-// add fuel to the engine
-load $i0 input
-stor $i0 combustion_engine

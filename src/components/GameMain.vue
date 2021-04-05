@@ -1,20 +1,19 @@
 <template>
   <div class="frame">
-    <GameBoard/>
-    <div id="gui"/>
+    <MainBoard v-bind:world="$root.world"/>
   </div>
 </template>
 
 <script>
 
-import GameBoard from './GameBoard.vue';
+import MainBoard from './MainBoard.vue';
 
 export default {
   props: {
     info: Object,
   },
   components: {
-    GameBoard,
+    MainBoard,
   },
 };
 </script>
@@ -33,13 +32,13 @@ body {
 }
 
 .frame {
-  border: 8px #080808 solid;
-  box-sizing: border-box;
+  /*border: 8px #080808 solid;*/
+  /*box-sizing: border-box;*/
   width: 100vw;
   height: 100vh;
   display: grid;
   grid-template-columns: auto;
-  grid-column-gap: 8px;
+  /*grid-column-gap: 8px;*/
   transform: translateZ(0);
 }
 </style>

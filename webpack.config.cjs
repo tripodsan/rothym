@@ -58,14 +58,7 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        loader: 'svg-inline-loader',
-        options: {
-          idPrefix: true,
-          removeTags: false,
-          removeSVGTagAttrs: true,
-          removingTagAttrs: ['viewBox', 'style', 'id'],
-          classPrefix: true,
-        },
+        loader: 'vue-svg-loader',
       },
       {
         test: /\.(jpg|png)$/,

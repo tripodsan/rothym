@@ -16,7 +16,15 @@ export default class World extends EventEmitter {
       startTime: 0,
       time: 0, // ms
       speed: 100, // bbm
+      beat: 4,
+      numNotes: 8,
+      metronome: new Cell({
+        notes: [1, 0, 1, 0, 1, 0, 1, 0],
+        instruments: ['', 'metronome'],
+        autoMute: true,
+      }),
     });
+    this.metronome.boot(this);
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -42,7 +50,37 @@ export default class World extends EventEmitter {
   }
 
   changeSpeed(delta) {
-    this.speed = Math.max(this.speed + delta, 10);
+    let msPerStep = this.msPerStep();
+    const relSteps = this.time / msPerStep;
+    this.speed = Math.min(300, Math.max(this.speed + delta, 10));
+    msPerStep = this.msPerStep();
+    this.time = relSteps * msPerStep;
+    this.startTime = Date.now() - this.time;
+  }
+
+  changeBeat(dir) {
+    this.beat = Math.min(Math.max(this.beat + dir, 2), 16);
+    this.numNotes = Math.max(this.numNotes, this.beat);
+    this.cells.forEach((c) => {
+      c.onMetricsChanged();
+    });
+    this.updateMetronome();
+  }
+
+  changeNumNotes(dir) {
+    this.numNotes = Math.min(Math.max(this.numNotes + dir, 2), 16);
+    this.beat = Math.min(this.beat, this.numNotes);
+    this.cells.forEach((c) => {
+      c.onMetricsChanged();
+    });
+    this.updateMetronome();
+  }
+
+  updateMetronome() {
+    const rep = Math.floor(this.numNotes / this.beat);
+    for (let i = 0; i < this.numNotes; i++) {
+      this.metronome.setNote(i, i % rep === 0 ? 1 : 0);
+    }
   }
 
   togglePause() {
@@ -52,18 +90,27 @@ export default class World extends EventEmitter {
     }
   }
 
-  step() {
-    this.stepPending = true;
+  step(direction = 1) {
+    this.stepPending = direction;
+  }
+
+  msPerStep() {
+    const msPerQuarter = 1000 / (this.speed / 60);
+    return msPerQuarter / 2; // todo: calculate based on cells
   }
 
   tick() {
-    if (this.paused) {
-      if (!this.stepPending) {
-        return;
-      }
-      this.stepPending = false;
-    }
     const now = Date.now();
+    if (this.paused && !this.stepPending) {
+      return;
+    }
+    if (this.stepPending) {
+      const msPerStep = this.msPerStep();
+      const steps = Math.floor(this.time / msPerStep) + this.stepPending;
+      this.startTime = now - steps * msPerStep;
+      this.stepPending = 0;
+    }
+
     if (!this.startTime) {
       this.startTime = now;
     }
@@ -72,6 +119,7 @@ export default class World extends EventEmitter {
     this.cells.forEach((c) => {
       c.tick();
     });
+    this.metronome.tick();
     this.tickCount++;
   }
 
