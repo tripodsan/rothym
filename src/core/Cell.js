@@ -74,6 +74,7 @@ export default class Cell {
 
   toggleMute() {
     this.muted = !this.muted;
+    this.autoMute = false;
   }
 
   toJSON() {

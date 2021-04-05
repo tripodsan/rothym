@@ -18,6 +18,7 @@ export default class World extends EventEmitter {
       speed: 100, // bbm
       beat: 4,
       numNotes: 8,
+      divs: 2,
       metronome: new Cell({
         notes: [1, 0, 1, 0, 1, 0, 1, 0],
         instruments: ['', 'metronome'],
@@ -60,16 +61,16 @@ export default class World extends EventEmitter {
 
   changeBeat(dir) {
     this.beat = Math.min(Math.max(this.beat + dir, 2), 16);
-    this.numNotes = Math.max(this.numNotes, this.beat);
+    this.numNotes = this.beat * this.divs;
     this.cells.forEach((c) => {
       c.onMetricsChanged();
     });
     this.updateMetronome();
   }
 
-  changeNumNotes(dir) {
-    this.numNotes = Math.min(Math.max(this.numNotes + dir, 2), 16);
-    this.beat = Math.min(this.beat, this.numNotes);
+  changeNumDivs(dir) {
+    this.divs = Math.min(Math.max(this.divs + dir, 1), 4);
+    this.numNotes = this.beat * this.divs;
     this.cells.forEach((c) => {
       c.onMetricsChanged();
     });

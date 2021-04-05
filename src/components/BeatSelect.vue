@@ -1,17 +1,14 @@
 <template>
   <div class="step-content">
     <btnUp v-on:click="world.changeBeat(1)" class="xbtn"/>
-    <div></div>
-    <btnUp v-on:click="world.changeNumNotes(1)" class="xbtn"/>
+    <btnUp v-on:click="world.changeNumDivs(1)" class="xbtn"/>
     <Metronome :world="world" class="metronome" />
 
     <div class="value">{{world.beat}}</div>
-    <div class="value">/</div>
-    <div class="value">{{divs}}</div>
+    <div class="divs">{{divs}}</div>
 
     <btnDown v-on:click="world.changeBeat(-1)" class="xbtn"/>
-    <div></div>
-    <btnDown v-on:click="world.changeNumNotes(-1)" class="xbtn"/>
+    <btnDown v-on:click="world.changeNumDivs(-1)" class="xbtn"/>
   </div>
 </template>
 
@@ -21,6 +18,13 @@ import btnUp from '../assets/btn-up.svg';
 import btnDown from '../assets/btn-down.svg';
 import Metronome from './Metronome.vue';
 
+const NOTES = [
+  '-',
+  'q', // quarters
+  'n', // eighths
+  '™', // triplets
+  'y', // sixteens
+];
 export default {
   components: {
     btnUp,
@@ -32,7 +36,7 @@ export default {
   },
   computed: {
     divs() {
-      return this.$props.world.numNotes;
+      return NOTES[this.$props.world.divs];
     },
   },
 };
@@ -44,21 +48,30 @@ export default {
   justify-content: center;
   align-content: center;
   column-gap: 10px;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto auto auto;
   grid-template-rows: auto;
   grid-template-areas:
-    ". . . metronome"
-    ". . . metronome"
-    ". . . metronome"
+    ". . metronome"
+    ". . metronome"
+    ". . metronome"
 }
 .value {
   font-size: 72px;
-  font-family: futura, verdana, sans-serif;
+  font-family: arial, verdana, sans-serif;
   text-align: center;
   align-self: baseline;
   color: black;
   line-height: 80px;
 }
+.divs {
+  font-family: MusiSync;
+  font-size: 72px;
+  text-align: center;
+  align-self: baseline;
+  color: black;
+  line-height: 80px;
+}
+
 .metronome {
   grid-area: metronome;
   align-self: center;
@@ -74,4 +87,13 @@ export default {
 .xbtn:hover {
   color: #dddddd;
 }
+
+@font-face {
+  font-family: 'MusiSync';
+  src: url('../assets/MusiSync.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 </style>
