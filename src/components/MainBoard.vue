@@ -4,7 +4,7 @@
       <BPMSelect :world="world"/>
       <BeatSelect :world="world"/>
       <Controls :world="world"/>
-      <div/>
+      <RhythmSelect :world="world" />
       <UICell v-for="cell in world.cells" :key="cell.id" :cell="cell" />
     </div>
   </div>
@@ -17,9 +17,11 @@ import UICell from './UICell.vue';
 import Controls from './Controls.vue';
 import BeatSelect from './BeatSelect.vue';
 import Metronome from './Metronome.vue';
+import RhythmSelect from './RhythmSelect.vue';
 
 export default {
   components: {
+    RhythmSelect,
     Metronome,
     BeatSelect,
     Controls,

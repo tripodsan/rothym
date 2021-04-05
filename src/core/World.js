@@ -5,6 +5,7 @@ export default class World extends EventEmitter {
   constructor() {
     super();
     Object.assign(this, {
+      name: 'Simple Rock',
       cells: [],
       deleted: [],
       addedCells: [],
@@ -34,19 +35,27 @@ export default class World extends EventEmitter {
 
   toJSON() {
     return {
-      age: this.tickCount,
+      name: this.name,
+      speed: this.speed,
+      beat: this.beat,
+      divs: this.divs,
       cells: this.cells.map((c) => c.toJSON()),
     };
   }
 
   // eslint-disable-next-line no-unused-vars
   static fromJSON(data) {
-    const world = new World(data.seedString);
-    data.cells.forEach((c) => {
-      world.addCell(Cell.fromJSON(world.player.templateRegistry, c));
+    const world = new World({
+      name: data.name,
+      speed: data.speed,
+      beat: data.beat,
+      divs: data.divs,
     });
-    world.tickCount = data.age;
-    world.cells.forEach((cell) => cell.afterLoad());
+    world.numNotes = world.beat * world.divs;
+    world.updateMetronome();
+    data.cells.forEach((c) => {
+      world.addCell(Cell.fromJSON(c));
+    });
     return world;
   }
 
@@ -162,25 +171,5 @@ export default class World extends EventEmitter {
     this.cells.push(c);
     this.addedCells.push(c);
     return this;
-  }
-
-  buildCell(clone, pos, rotation) {
-    if (!clone) {
-      return false;
-    }
-    if (!clone.canDrop(pos, rotation)) {
-      return false;
-    }
-    const cell = new Cell({
-      template: clone.template,
-      rotation: rotation || clone.rotation,
-      pos: pos || clone.pos,
-    });
-    this.addCell(cell);
-    return true;
-  }
-
-  onScale(scale, pan) {
-    this.emit('scaled', scale, pan);
   }
 }

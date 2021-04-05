@@ -10,7 +10,7 @@
                     :cx="note.pos[0]"
                     :cy="note.pos[1]"
                     v-on:animationend="onAnimationEnd"
-                    v-on:click="onNoteClick(note)"
+                    v-on:pointerdown="onNoteClick(note)"
             />
           </g>
           <circle class="cursor" />

@@ -1,5 +1,5 @@
 /* eslint-env browser */
-
+/* global anime */
 import Vue from 'vue';
 
 import { BootstrapVue } from 'bootstrap-vue';
@@ -42,13 +42,11 @@ export default class Game {
   }
 
   save() {
-    return {
-      world: this.world.toJSON(),
-    };
+    return this.world.toJSON();
   }
 
   load(data) {
-    this.world = World.fromJSON(data.world);
+    this.world = World.fromJSON(data);
   }
 
   initKeyHandler() {
@@ -80,37 +78,23 @@ export default class Game {
     const self = this;
     this.vue = new Vue({
       el: '#main',
-      template: '<GameMain v-bind:info="info" />',
+      template: '<GameMain />',
       components: { GameMain },
       data: {
         world: self.world,
         audio: this.audio,
-        info: {
-          mouse: {
-            position: 0,
-            resource: 0,
-            cell: 0,
-            terrain: '',
-          },
-          cell: {
-            selected: null,
-          },
-          world: {
-            tick: 0,
-            state: '',
-          },
-        },
+        game: self,
       },
       mounted() {
         self.board = document.getElementById('main-board');
         self.world.init();
 
-        // anime({
-        //   targets: [self.svg, self.board],
-        //   opacity: [0, 1],
-        //   delay: 100,
-        //   duration: 2000,
-        // });
+        anime({
+          targets: [self.board],
+          opacity: [0, 1],
+          delay: 100,
+          duration: 2000,
+        });
         requestAnimationFrame(self.boundUpdate);
       },
     });

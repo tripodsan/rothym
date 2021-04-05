@@ -12,6 +12,7 @@ export default class Cell {
       world: null, // set during boot
       selected: false,
       prevNote: -1,
+      playedNote: -1,
       notes: [1, 0, 1, 0, 1, 0, 1, 0],
       instruments: ['', 'snare'],
       text: '',
@@ -25,8 +26,34 @@ export default class Cell {
   }
 
   onMetricsChanged() {
-    while (this.notes.length < this.world.numNotes) {
-      this.notes.push(0);
+    let delta = this.world.numNotes - this.notes.length;
+    if (delta > 0) {
+      let i = 0;
+      const d = delta / this.notes.length;
+      let p = 0;
+      while (delta > 0) {
+        p += d;
+        while (p >= 1) {
+          delta -= 1;
+          this.notes.splice(i + 1, 0, 0);
+          i += 1;
+          p -= 1;
+        }
+        i += 1;
+      }
+    } else {
+      let i = 0;
+      const d = -delta / this.world.numNotes;
+      let p = 0;
+      while (delta < 0) {
+        p += d;
+        while (p >= 1) {
+          delta += 1;
+          this.notes.splice(i + 1, 1);
+          p -= 1;
+        }
+        i += 1;
+      }
     }
   }
 
@@ -79,37 +106,25 @@ export default class Cell {
 
   toJSON() {
     return {
-      id: this.id,
-      type: this.type,
-      template: this.template.name,
-      pos: this.pos,
-      rotation: this.rotation,
-      modules: this.modules.toJSON(),
+      text: this.text,
+      notes: this.notes,
+      instruments: this.instruments,
+      muted: this.muted,
     };
   }
 
-  static fromJSON(templateReg, data) {
-    const template = templateReg.getByName(data.template);
+  static fromJSON(data) {
     const cell = new Cell({
-      id: data.id,
-      template,
-      pos: data.pos,
-      rotation: data.rotation,
-      _bootData: data,
+      text: data.text,
+      notes: data.notes,
+      instruments: data.instruments,
+      muted: data.muted,
     });
     return cell;
   }
 
   boot(world) {
     this.world = world;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  afterLoad() {
-  }
-
-  destroy() {
-    this.destroyed = true;
   }
 
   select(selected) {

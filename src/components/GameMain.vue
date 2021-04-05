@@ -9,9 +9,6 @@
 import MainBoard from './MainBoard.vue';
 
 export default {
-  props: {
-    info: Object,
-  },
   components: {
     MainBoard,
   },

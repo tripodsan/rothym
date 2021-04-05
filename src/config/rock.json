@@ -1,0 +1,82 @@
+{
+  "name": "Simple Rock",
+  "speed": 100,
+  "beat": 4,
+  "divs": 2,
+  "cells": [
+    {
+      "text": "Kick",
+      "notes": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "instruments": [
+        "",
+        "kick"
+      ],
+      "muted": false
+    },
+    {
+      "text": "Snare",
+      "notes": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "instruments": [
+        "",
+        "snare"
+      ],
+      "muted": false
+    },
+    {
+      "text": "Hi-Hat",
+      "notes": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "instruments": [
+        "",
+        "hihat",
+        "hihat_open"
+      ],
+      "muted": false
+    },
+    {
+      "text": "Tom",
+      "notes": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        2
+      ],
+      "instruments": [
+        "",
+        "tom-high",
+        "tom-low"
+      ],
+      "muted": false
+    }
+  ]
+}
