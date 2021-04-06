@@ -105,19 +105,22 @@ export default class Cell {
   }
 
   toJSON() {
-    return {
+    const data = {
       text: this.text,
-      notes: this.notes,
-      instruments: this.instruments,
-      muted: this.muted,
+      notes: this.notes.join(''),
+      instruments: this.instruments.slice(1),
     };
+    if (this.muted) {
+      data.muted = true;
+    }
+    return data;
   }
 
   static fromJSON(data) {
     const cell = new Cell({
       text: data.text,
-      notes: data.notes,
-      instruments: data.instruments,
+      notes: data.notes.split('').map((c) => Number.parseInt(c, 10)),
+      instruments: ['', ...data.instruments],
       muted: data.muted,
     });
     return cell;

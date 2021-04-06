@@ -1,7 +1,8 @@
 <template>
   <div class="rhythm-content">
     <b-form-select v-model="selected" :options="songs"/>
-    <b-button v-on:click="save()">save</b-button>
+<!--    <b-button v-on:click="save()">save</b-button>-->
+    <b-button v-on:click="load()">load</b-button>
   </div>
 </template>
 
@@ -31,11 +32,18 @@ export default {
       // eslint-disable-next-line no-console
       console.log(this.$root.game.save());
     },
+    load() {
+      this.$root.game.load(songs[this.selected]);
+    },
   },
 };
 </script>
 
 <style scoped>
 .rhythm-content {
+  display: grid;
+  grid-template-columns: auto 100px;
+  align-content: start;
+
 }
 </style>

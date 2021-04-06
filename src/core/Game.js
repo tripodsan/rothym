@@ -34,11 +34,15 @@ export default class Game {
     this.audio = new AudioManager();
     this.audio.addSample('kick', '/sounds/Kick 001 Basic.wav');
     this.audio.addSample('snare', '/sounds/Snare 004.wav');
+    this.audio.addSample('snare-rim', '/sounds/rim-punch.wav');
     this.audio.addSample('hihat', '/sounds/HiHat Closed 004 Flat Real.wav');
     this.audio.addSample('hihat_open', '/sounds/HiHat Open 001.wav');
-    this.audio.addSample('metronome', '/sounds/Percussion Clave 002 808.wav');
+    this.audio.addSample('clave', '/sounds/Percussion Clave 002 808.wav');
     this.audio.addSample('tom-high', '/sounds/Percussion Conga 001 High.wav');
     this.audio.addSample('tom-low', '/sounds/Percussion Conga 002 Low.wav');
+    this.audio.addSample('ride', '/sounds/Cymbal Ride 001 Smooth.wav');
+    this.audio.addSample('cow', '/sounds/Percussion Cowbell 001.wav');
+    this.audio.addSample('crash', '/sounds/Crash 001.wav');
   }
 
   save() {
@@ -46,7 +50,8 @@ export default class Game {
   }
 
   load(data) {
-    this.world = World.fromJSON(data);
+    console.log('loading', data);
+    this.world.load(data);
   }
 
   initKeyHandler() {

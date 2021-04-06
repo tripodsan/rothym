@@ -1,37 +1,36 @@
 {
-  "name": "Simple Rock",
-  "speed": 100,
+  "name": "Swing",
+  "speed": 120,
   "beat": 4,
-  "divs": 2,
+  "divs": 3,
   "cells": [
     {
       "text": "Kick",
-      "notes": "10001000",
+      "notes": "000000000000",
       "instruments": [
         "kick"
       ]
     },
     {
       "text": "Snare",
-      "notes": "00100010",
+      "notes": "000000000000",
       "instruments": [
         "snare"
       ]
     },
     {
       "text": "Hi-Hat",
-      "notes": "11111112",
+      "notes": "000100000100",
       "instruments": [
         "hihat",
         "hihat_open"
       ]
     },
     {
-      "text": "Tom",
-      "notes": "00011002",
+      "text": "Ride",
+      "notes": "100101100101",
       "instruments": [
-        "tom-high",
-        "tom-low"
+        "ride"
       ]
     }
   ]

@@ -22,7 +22,7 @@ export default class World extends EventEmitter {
       divs: 2,
       metronome: new Cell({
         notes: [1, 0, 1, 0, 1, 0, 1, 0],
-        instruments: ['', 'metronome'],
+        instruments: ['', 'clave'],
         autoMute: true,
       }),
     });
@@ -43,20 +43,21 @@ export default class World extends EventEmitter {
     };
   }
 
-  // eslint-disable-next-line no-unused-vars
-  static fromJSON(data) {
-    const world = new World({
-      name: data.name,
-      speed: data.speed,
-      beat: data.beat,
-      divs: data.divs,
-    });
-    world.numNotes = world.beat * world.divs;
-    world.updateMetronome();
+  load(data) {
+    this.cells.splice(0, this.cells.length);
+    this.name = data.name;
+    this.speed = data.speed;
+    this.beat = data.beat;
+    this.divs = data.divs;
+    this.numNotes = this.beat * this.divs;
+    this.paused = true;
+    this.time = 0;
+    this.startTime = 0;
+    this.updateMetronome();
+    this.metronome.autoMute = true;
     data.cells.forEach((c) => {
-      world.addCell(Cell.fromJSON(c));
+      this.addCell(Cell.fromJSON(c));
     });
-    return world;
   }
 
   changeSpeed(delta) {

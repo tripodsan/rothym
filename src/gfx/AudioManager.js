@@ -4,6 +4,7 @@ export default class AudioManager {
   constructor() {
     Object.assign(this, {
       samples: {},
+      samplesByIdx: [],
       ctx: new AudioContext(),
     });
   }
@@ -22,14 +23,23 @@ export default class AudioManager {
         console.error('error decoding audio buffer', err);
         return;
       }
-      this.samples[key] = data;
+      const sample = {
+        name: key,
+        idx: this.samplesByIdx.length,
+        buffer: data,
+      };
+      this.samples[key] = sample;
+      this.samplesByIdx.push(sample);
     });
   }
 
   play(key) {
-    const source = this.ctx.createBufferSource();
-    source.buffer = this.samples[key];
-    source.connect(this.ctx.destination);
-    source.start(0);
+    const sample = typeof key === 'number' ? this.samplesByIdx[key] : this.samples[key];
+    if (sample) {
+      const source = this.ctx.createBufferSource();
+      source.buffer = sample.buffer;
+      source.connect(this.ctx.destination);
+      source.start(0);
+    }
   }
 }

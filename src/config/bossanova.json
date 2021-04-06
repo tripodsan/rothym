@@ -1,26 +1,27 @@
 {
-  "name": "Simple Rock",
-  "speed": 100,
-  "beat": 4,
+  "name": "Bossa Nova",
+  "speed": 130,
+  "beat": 8,
   "divs": 2,
   "cells": [
     {
       "text": "Kick",
-      "notes": "10001000",
+      "notes": "1001100110011001",
       "instruments": [
         "kick"
       ]
     },
     {
       "text": "Snare",
-      "notes": "00100010",
+      "notes": "2002002000200200",
       "instruments": [
-        "snare"
+        "snare",
+        "snare-rim"
       ]
     },
     {
       "text": "Hi-Hat",
-      "notes": "11111112",
+      "notes": "1111111111111111",
       "instruments": [
         "hihat",
         "hihat_open"
@@ -28,7 +29,7 @@
     },
     {
       "text": "Tom",
-      "notes": "00011002",
+      "notes": "0000000000000011",
       "instruments": [
         "tom-high",
         "tom-low"
