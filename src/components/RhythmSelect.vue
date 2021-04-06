@@ -40,5 +40,8 @@ export default {
 
 <style scoped>
 .rhythm-content {
+  display: grid;
+  align-content: center;
+
 }
 </style>

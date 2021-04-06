@@ -1,5 +1,6 @@
 <template>
   <div id="main-board">
+    <GithubCorner link="https://github.com/tripodsan/rothym" />
     <div class="content">
       <BPMSelect :world="world"/>
       <BeatSelect :world="world"/>
@@ -12,6 +13,7 @@
 
 <script>
 
+import GithubCorner from './GithubCorner.vue';
 import BPMSelect from './BPMSelect.vue';
 import UICell from './UICell.vue';
 import Controls from './Controls.vue';
@@ -21,6 +23,7 @@ import RhythmSelect from './RhythmSelect.vue';
 
 export default {
   components: {
+    GithubCorner,
     RhythmSelect,
     Metronome,
     BeatSelect,
@@ -36,7 +39,7 @@ export default {
 <style scoped>
 #main-board {
   display: block;
-  border: 1px #222222 solid;
+  /*border: 1px #222222 solid;*/
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -47,7 +50,6 @@ export default {
   grid-column: 1;
   grid-row: 1;
   transform: translateZ(1px);
-  background: #b8a481;
 }
 
 .content {

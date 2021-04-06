@@ -29,13 +29,11 @@ body {
 }
 
 .frame {
-  /*border: 8px #080808 solid;*/
-  /*box-sizing: border-box;*/
+  background: #b8a481;
   width: 100vw;
   height: 100vh;
   display: grid;
   grid-template-columns: auto;
-  /*grid-column-gap: 8px;*/
   transform: translateZ(0);
 }
 </style>
